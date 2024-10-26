@@ -1,0 +1,19 @@
+<resources>
+    <!-- Define your custom attributes -->
+    <attr name="colorPositive" format="color" />
+    <attr name="colorOnPositive" format="color" />
+    <attr name="colorPositiveContainer" format="color" />
+    <attr name="colorOnPositiveContainer" format="color" />
+    <attr name="colorPositiveSecondary" format="color" />
+    <attr name="colorOnPositiveSecondary" format="color" />
+    <attr name="colorPositiveSecondaryContainer" format="color" />
+    <attr name="colorOnPositiveSecondaryContainer" format="color" />
+    <attr name="colorLogo" format="color" />
+    <attr name="colorOnLogo" format="color" />
+    <attr name="colorLogoContainer" format="color" />
+    <attr name="colorOnLogoContainer" format="color" />
+    <attr name="colorLogoSecondary" format="color" />
+    <attr name="colorOnLogoSecondary" format="color" />
+    <attr name="colorLogoSecondaryContainer" format="color" />
+    <attr name="colorOnLogoSecondaryContainer" format="color" />
+</resources>

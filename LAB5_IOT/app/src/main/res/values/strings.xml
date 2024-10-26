@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ESCALATE</string>
+
+    <string-array name="objetivos">
+        <item>Bajar de peso</item>
+        <item>Subir de peso</item>
+        <item>Mantenerme</item>
+    </string-array>
+
+    <string-array name="intensidad">
+        <item>Poco o nada</item>
+        <item>Ejercicio ligero</item>
+        <item>Ejercicio moderado</item>
+        <item>Ejercicio fuerte</item>
+        <item>Ejercicio muy fuerte</item>
+    </string-array>
+
+</resources>
