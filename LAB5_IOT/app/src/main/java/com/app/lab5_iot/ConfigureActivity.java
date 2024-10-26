@@ -29,8 +29,6 @@ public class ConfigureActivity extends AppCompatActivity {
     private Spinner selectorObjetivo;
 
     private RadioGroup radioGroupGenero;
-    private RadioButton radioMale;
-    private RadioButton radioFemale;
 
     private Button buttonConfigure;
 
@@ -57,8 +55,6 @@ public class ConfigureActivity extends AppCompatActivity {
         selectorObjetivo = findViewById(R.id.selectorObjetivo);
 
         radioGroupGenero = findViewById(R.id.radio_group_genero);
-        radioMale = findViewById(R.id.radio_male);
-        radioFemale = findViewById(R.id.radio_female);
 
         buttonConfigure = findViewById(R.id.button_configure);
 
@@ -73,8 +69,8 @@ public class ConfigureActivity extends AppCompatActivity {
                 String edad = inputEdad.getText().toString();
                 String intensidad = selectorIntensidad.getSelectedItem().toString();
                 String objetivo = selectorObjetivo.getSelectedItem().toString();
-
                 String genero = "";
+
                 int selectedGenderId = radioGroupGenero.getCheckedRadioButtonId();
                 if (selectedGenderId != -1) {
                     RadioButton selectedRadioButton = findViewById(selectedGenderId);
@@ -85,20 +81,67 @@ public class ConfigureActivity extends AppCompatActivity {
                         genero = "MUJER";
                     }
                 } else {
-                    genero = "HOMBRE";
+                    genero = "UNDEFINED";
                 }
 
-                userData = new UserData(nombre, peso, altura, edad, intensidad, objetivo, genero);
+                Float intensidadFactor = 0F;
+
+                if (intensidad.equals("Poco o nada")){
+                    intensidadFactor = 1.2F;
+                } else if (intensidad.equals("Ejercicio ligero")) {
+                    intensidadFactor = 1.375F;
+                } else if (intensidad.equals("Ejercicio moderado")) {
+                    intensidadFactor = 1.55F;
+                } else if (intensidad.equals("Ejercicio fuerte")) {
+                    intensidadFactor = 1.725F;
+                } else if (intensidad.equals("Ejercicio muy fuerte")) {
+                    intensidadFactor = 1.9F;
+                }
+
+                Float pesoF = Float.parseFloat(peso);
+                Float alturaF = Float.parseFloat(altura);
+                Float edadF = Float.parseFloat(edad);
+
+                Float TBM = calcularTBMHarrisBenedict (pesoF, alturaF, edadF, genero, intensidadFactor);
+
+                if (objetivo.equals("Bajar de peso")){
+                    TBM = TBM - 300F;
+                } else if (objetivo.equals("Subir de peso")){
+                    TBM = TBM + 500F;
+                } else if (objetivo.equals("Mantenerme")){
+                    TBM = TBM - 0F;
+                }
+
+                userData = new UserData(nombre, pesoF, alturaF, edadF, intensidad, objetivo, genero, TBM);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("userData", userData);
 
-                Intent intent = new Intent(ConfigureActivity.this, AppActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                Intent intentOK = new Intent(ConfigureActivity.this, AppActivity.class);
+
+                intentOK.putExtras(bundle);
+                startActivity(intentOK);
             }
         });
 
+    }
+
+
+    private Float calcularTBMHarrisBenedict(Float peso, Float altura, Float edad, String genero, Float intensidadFactor) {
+
+        Float TBM = 0F;
+
+        if (genero.equals("HOMBRE")) {
+            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
+        } else if (genero.equals("MUJER")) {
+            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) - 161F);
+        } else if (genero.equals("UNDEFINED")) {
+            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
+        }
+
+        TBM = TBM * intensidadFactor;
+
+        return TBM;
     }
 
 

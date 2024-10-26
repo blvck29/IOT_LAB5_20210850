@@ -3,15 +3,18 @@ package com.app.lab5_iot.model;
 import java.io.Serializable;
 
 public class UserData implements Serializable {
+
     private String nombre;
-    private String peso;
-    private String altura;
-    private String edad;
+    private Float peso;
+    private Float altura;
+    private Float edad;
     private String intensidad;
     private String objetivo;
     private String genero;
+    private Float TBM;
 
-    public UserData(String nombre, String peso, String altura, String edad, String intensidad, String objetivo, String genero) {
+
+    public UserData(String nombre, Float peso, Float altura, Float edad, String intensidad, String objetivo, String genero, Float TBM) {
         this.nombre = nombre;
         this.peso = peso;
         this.altura = altura;
@@ -19,6 +22,7 @@ public class UserData implements Serializable {
         this.intensidad = intensidad;
         this.objetivo = objetivo;
         this.genero = genero;
+        this.TBM = TBM;
     }
 
     public String getNombre() {
@@ -29,27 +33,27 @@ public class UserData implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getPeso() {
+    public Float getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(Float peso) {
         this.peso = peso;
     }
 
-    public String getAltura() {
+    public Float getAltura() {
         return altura;
     }
 
-    public void setAltura(String altura) {
+    public void setAltura(Float altura) {
         this.altura = altura;
     }
 
-    public String getEdad() {
+    public Float getEdad() {
         return edad;
     }
 
-    public void setEdad(String edad) {
+    public void setEdad(Float edad) {
         this.edad = edad;
     }
 
@@ -75,5 +79,13 @@ public class UserData implements Serializable {
 
     public void setGenero(String genero) {
         this.genero = genero;
+    }
+
+    public Float getTBM() {
+        return TBM;
+    }
+
+    public void setTBM(Float TBM) {
+        this.TBM = TBM;
     }
 }
