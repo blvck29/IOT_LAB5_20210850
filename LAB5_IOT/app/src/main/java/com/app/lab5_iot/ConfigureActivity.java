@@ -101,17 +101,17 @@ public class ConfigureActivity extends AppCompatActivity {
                 Float alturaF = Float.parseFloat(altura);
                 Float edadF = Float.parseFloat(edad);
 
-                Float TBM = calcularTBMHarrisBenedict (pesoF, alturaF, edadF, genero, intensidadFactor);
+                Float TMB = calcularTMBHarrisBenedict (pesoF, alturaF, edadF, genero, intensidadFactor);
 
                 if (objetivo.equals("Bajar de peso")){
-                    TBM = TBM - 300F;
+                    TMB = TMB - 300F;
                 } else if (objetivo.equals("Subir de peso")){
-                    TBM = TBM + 500F;
+                    TMB = TMB + 500F;
                 } else if (objetivo.equals("Mantenerme")){
-                    TBM = TBM - 0F;
+                    TMB = TMB - 0F;
                 }
 
-                dataUsuario = new DataUsuario(nombre, pesoF, alturaF, edadF, intensidad, objetivo, genero, TBM);
+                dataUsuario = new DataUsuario(nombre, pesoF, alturaF, edadF, intensidad, objetivo, genero, TMB);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("dataUsuario", dataUsuario);
@@ -127,21 +127,21 @@ public class ConfigureActivity extends AppCompatActivity {
     }
 
 
-    private Float calcularTBMHarrisBenedict(Float peso, Float altura, Float edad, String genero, Float intensidadFactor) {
+    private Float calcularTMBHarrisBenedict(Float peso, Float altura, Float edad, String genero, Float intensidadFactor) {
 
-        Float TBM = 0F;
+        Float TMB = 0F;
 
         if (genero.equals("HOMBRE")) {
-            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
+            TMB = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
         } else if (genero.equals("MUJER")) {
-            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) - 161F);
+            TMB = ((10F * peso) + (6.25F * altura) - (5F * edad) - 161F);
         } else if (genero.equals("UNDEFINED")) {
-            TBM = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
+            TMB = ((10F * peso) + (6.25F * altura) - (5F * edad) + 5F);
         }
 
-        TBM = TBM * intensidadFactor;
+        TMB = TMB * intensidadFactor;
 
-        return TBM;
+        return TMB;
     }
 
 

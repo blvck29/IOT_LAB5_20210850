@@ -11,10 +11,10 @@ public class DataUsuario implements Serializable {
     private String intensidad;
     private String objetivo;
     private String genero;
-    private Float TBM;
+    private Float TMB;
 
 
-    public DataUsuario(String nombre, Float peso, Float altura, Float edad, String intensidad, String objetivo, String genero, Float TBM) {
+    public DataUsuario(String nombre, Float peso, Float altura, Float edad, String intensidad, String objetivo, String genero, Float TMB) {
         this.nombre = nombre;
         this.peso = peso;
         this.altura = altura;
@@ -22,7 +22,7 @@ public class DataUsuario implements Serializable {
         this.intensidad = intensidad;
         this.objetivo = objetivo;
         this.genero = genero;
-        this.TBM = TBM;
+        this.TMB = TMB;
     }
 
     public String getNombre() {
@@ -81,11 +81,11 @@ public class DataUsuario implements Serializable {
         this.genero = genero;
     }
 
-    public Float getTBM() {
-        return TBM;
+    public Float getTMB() {
+        return TMB;
     }
 
-    public void setTBM(Float TBM) {
-        this.TBM = TBM;
+    public void setTMB(Float TMB) {
+        this.TMB = TMB;
     }
 }
