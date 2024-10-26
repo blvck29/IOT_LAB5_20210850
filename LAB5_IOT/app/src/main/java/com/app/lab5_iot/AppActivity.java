@@ -1,5 +1,6 @@
 package com.app.lab5_iot;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -8,7 +9,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.app.lab5_iot.model.DataUsuario;
+
 public class AppActivity extends AppCompatActivity {
+
+
+    private DataUsuario dataUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +26,19 @@ public class AppActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+
+        if (bundle != null) {
+            dataUsuario = (DataUsuario) bundle.getSerializable("dataUsuario");
+        }
+
     }
+
+
+
+
 }

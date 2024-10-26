@@ -2,7 +2,7 @@ package com.app.lab5_iot.model;
 
 import java.io.Serializable;
 
-public class UserData implements Serializable {
+public class DataUsuario implements Serializable {
 
     private String nombre;
     private Float peso;
@@ -14,7 +14,7 @@ public class UserData implements Serializable {
     private Float TBM;
 
 
-    public UserData(String nombre, Float peso, Float altura, Float edad, String intensidad, String objetivo, String genero, Float TBM) {
+    public DataUsuario(String nombre, Float peso, Float altura, Float edad, String intensidad, String objetivo, String genero, Float TBM) {
         this.nombre = nombre;
         this.peso = peso;
         this.altura = altura;

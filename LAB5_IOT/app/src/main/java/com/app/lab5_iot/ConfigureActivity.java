@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -16,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.app.lab5_iot.model.UserData;
+import com.app.lab5_iot.model.DataUsuario;
 
 public class ConfigureActivity extends AppCompatActivity {
 
@@ -33,7 +32,7 @@ public class ConfigureActivity extends AppCompatActivity {
     private Button buttonConfigure;
 
 
-    private UserData userData;
+    private DataUsuario dataUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,14 +111,15 @@ public class ConfigureActivity extends AppCompatActivity {
                     TBM = TBM - 0F;
                 }
 
-                userData = new UserData(nombre, pesoF, alturaF, edadF, intensidad, objetivo, genero, TBM);
+                dataUsuario = new DataUsuario(nombre, pesoF, alturaF, edadF, intensidad, objetivo, genero, TBM);
 
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("userData", userData);
+                bundle.putSerializable("dataUsuario", dataUsuario);
 
                 Intent intentOK = new Intent(ConfigureActivity.this, AppActivity.class);
 
                 intentOK.putExtras(bundle);
+                intentOK.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intentOK);
             }
         });
