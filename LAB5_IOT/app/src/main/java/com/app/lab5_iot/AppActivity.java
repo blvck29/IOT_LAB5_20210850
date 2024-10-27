@@ -66,6 +66,8 @@ public class AppActivity extends AppCompatActivity {
         addFood4 = findViewById(R.id.add_food4);
         addFood5 = findViewById(R.id.add_food5);
 
+        alertaSuperaCalorias = findViewById(R.id.alerta_supera_calorias);
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
@@ -101,8 +103,10 @@ public class AppActivity extends AppCompatActivity {
                             dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + Float.parseFloat(calories));
                             configureCircularTMBProgressView(dataCalorias);
 
-                            if (superaCalorias()){
+                            if (superaCalorias()) {
                                 alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                            } else {
+                                alertaSuperaCalorias.setVisibility(View.GONE);
                             }
 
                         })
@@ -144,6 +148,8 @@ public class AppActivity extends AppCompatActivity {
 
                                 if (superaCalorias()) {
                                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                                } else {
+                                    alertaSuperaCalorias.setVisibility(View.GONE);
                                 }
 
                             } else {
@@ -168,8 +174,10 @@ public class AppActivity extends AppCompatActivity {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 942F);
                 configureCircularTMBProgressView(dataCalorias);
 
-                if (superaCalorias()){
+                if (superaCalorias()) {
                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                } else {
+                    alertaSuperaCalorias.setVisibility(View.GONE);
                 }
             }
         });
@@ -180,8 +188,10 @@ public class AppActivity extends AppCompatActivity {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1242F);
                 configureCircularTMBProgressView(dataCalorias);
 
-                if (superaCalorias()){
+                if (superaCalorias()) {
                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                } else {
+                    alertaSuperaCalorias.setVisibility(View.GONE);
                 }
             }
         });
@@ -192,8 +202,10 @@ public class AppActivity extends AppCompatActivity {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1062F);
                 configureCircularTMBProgressView(dataCalorias);
 
-                if (superaCalorias()){
+                if (superaCalorias()) {
                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                } else {
+                    alertaSuperaCalorias.setVisibility(View.GONE);
                 }
             }
         });
@@ -204,8 +216,10 @@ public class AppActivity extends AppCompatActivity {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1542F);
                 configureCircularTMBProgressView(dataCalorias);
 
-                if (superaCalorias()){
+                if (superaCalorias()) {
                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                } else {
+                    alertaSuperaCalorias.setVisibility(View.GONE);
                 }
             }
         });
@@ -216,8 +230,10 @@ public class AppActivity extends AppCompatActivity {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 966F);
                 configureCircularTMBProgressView(dataCalorias);
 
-                if (superaCalorias()){
+                if (superaCalorias()) {
                     alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                } else {
+                    alertaSuperaCalorias.setVisibility(View.GONE);
                 }
             }
         });
