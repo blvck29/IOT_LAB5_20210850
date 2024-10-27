@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +51,10 @@ public class AppActivity extends AppCompatActivity {
 
     private LinearLayout alertaSuperaCalorias;
 
+
+    // Le pregunté a CHAT-GPT como realizar una acción cada x minutos
+    private Handler handler;
+    private Runnable notificationRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +151,7 @@ public class AppActivity extends AppCompatActivity {
                                 float caloriesValue = Float.parseFloat(calories);
                                 Float newValue = dataCalorias.getCaloriasConsumidas() - caloriesValue;
 
-                                if (newValue >= 0){
+                                if (newValue >= 0) {
                                     dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() - caloriesValue);
                                     configureCircularTMBProgressView(dataCalorias);
                                 } else {
@@ -174,6 +179,33 @@ public class AppActivity extends AppCompatActivity {
         });
 
 
+        configurarNotificaciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = getLayoutInflater().inflate(R.layout.config_noti_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AppActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Ingresar Comida")
+                        .setPositiveButton("Aceptar", (dialog, which) -> {
+                            EditText intervaloAlerta = dialogView.findViewById(R.id.intervalo_alerta);
+
+
+                            String intervalo = intervaloAlerta.getText().toString();
+                            Integer intervaloInt = Integer.parseInt(intervalo);
+
+                            if (intervaloInt == 0) {
+                                intervaloInt = 5;
+                            }
+
+                            iniciarNotificacionesExcesoCalorias(intervaloInt);
+
+                        })
+                        .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+                builder.create().show();
+            }
+        });
 
 
         addFood1.setOnClickListener(new View.OnClickListener() {
@@ -248,9 +280,9 @@ public class AppActivity extends AppCompatActivity {
 
     }
 
-    private boolean superaCalorias(){
+    private boolean superaCalorias() {
 
-        if (dataCalorias.getCaloriasConsumidas() > dataCalorias.getCaloriasTotales()){
+        if (dataCalorias.getCaloriasConsumidas() > dataCalorias.getCaloriasTotales()) {
             NotificarExcesoCalorias();
             return true;
         } else {
@@ -272,8 +304,6 @@ public class AppActivity extends AppCompatActivity {
 
         circularTMBProgressView.setPorcentaje(porcentaje, textCenter);
     }
-
-
 
 
     public void NotificarExcesoCalorias() {
@@ -298,6 +328,48 @@ public class AppActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(1, builder.build());
+        }
+    }
+
+
+    public void iniciarNotificacionesExcesoCalorias(int intervaloEnMinutos) {
+        detenerNotificacionesExcesoCalorias();
+
+        long intervaloEnMilisegundos = intervaloEnMinutos * 60 * 1000;
+        handler = new Handler();
+        notificationRunnable = new Runnable() {
+            @Override
+            public void run() {
+                NotificarAnimos();
+                handler.postDelayed(this, intervaloEnMilisegundos);
+            }
+        };
+        handler.post(notificationRunnable);
+    }
+
+    public void detenerNotificacionesExcesoCalorias() {
+        if (handler != null) handler.removeCallbacks(notificationRunnable);
+    }
+
+    public void NotificarAnimos() {
+        String channelId = "channelDefaultPri";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId, "Notificaciones", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Canal para notificaciones");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.logo_main)
+                .setContentTitle("¡Tu puedes lograrlo!")
+                .setContentText("Todo esfuerzo tiene sus frutos, confía en el proceso ¡No te rindas!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            NotificationManagerCompat.from(this).notify(1, builder.build());
         }
     }
 
