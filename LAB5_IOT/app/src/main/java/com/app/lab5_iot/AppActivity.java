@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -74,6 +76,62 @@ public class AppActivity extends AppCompatActivity {
 
 
         // INICIA LA LOGICA
+
+
+        inputCalorias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = getLayoutInflater().inflate(R.layout.add_comida_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AppActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Ingresar Comida")
+                        .setPositiveButton("Aceptar", (dialog, which) -> {
+                            EditText textFoodName = dialogView.findViewById(R.id.food_name);
+                            EditText textCalories = dialogView.findViewById(R.id.add_calories);
+
+
+                            String calories = textCalories.getText().toString();
+                            String foodName = textFoodName.getText().toString();
+
+                            dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + Float.parseFloat(calories));
+                            configureCircularTMBProgressView(dataCalorias);
+
+                        })
+                        .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+                builder.create().show();
+            }
+        });
+
+        inputEjercicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogView = getLayoutInflater().inflate(R.layout.add_ejercicio_dialog, null);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AppActivity.this);
+                builder.setView(dialogView)
+                        .setTitle("Ingresar Ejercicio")
+                        .setPositiveButton("Aceptar", (dialog, which) -> {
+                            EditText textExerciseName = dialogView.findViewById(R.id.exercise_name);
+                            EditText textCalories = dialogView.findViewById(R.id.minus_calories);
+
+
+                            String calories = textCalories.getText().toString();
+                            String exerciseName = textExerciseName.getText().toString();
+
+                            dataCalorias.setCaloriasTotales(dataCalorias.getCaloriasTotales() - Float.parseFloat(calories));
+                            configureCircularTMBProgressView(dataCalorias);
+
+                        })
+                        .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+                builder.create().show();
+            }
+        });
+
+
+
 
 
         addFood1.setOnClickListener(new View.OnClickListener() {
