@@ -1,7 +1,12 @@
 package com.app.lab5_iot;
 
+import static android.Manifest.permission.POST_NOTIFICATIONS;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +20,9 @@ import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -243,6 +251,7 @@ public class AppActivity extends AppCompatActivity {
     private boolean superaCalorias(){
 
         if (dataCalorias.getCaloriasConsumidas() > dataCalorias.getCaloriasTotales()){
+            NotificarExcesoCalorias();
             return true;
         } else {
             return false;
@@ -263,4 +272,33 @@ public class AppActivity extends AppCompatActivity {
 
         circularTMBProgressView.setPorcentaje(porcentaje, textCenter);
     }
+
+
+
+
+    public void NotificarExcesoCalorias() {
+        String channelId = "channelDefaultPri";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    "Notificaciones",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("Canal para notificaciones");
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.logo_main)
+                .setContentTitle("Has superado el límite de calorías!")
+                .setContentText("Podrías parar por hoy o hacer algun ejercicio o actividad física, tu puedes lograrlo.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(1, builder.build());
+        }
+    }
+
 }
