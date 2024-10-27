@@ -1,5 +1,6 @@
 package com.app.lab5_iot;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ public class AppActivity extends AppCompatActivity {
     private Button addFood3;
     private Button addFood4;
     private Button addFood5;
+
+    private LinearLayout alertaSuperaCalorias;
 
 
     @Override
@@ -97,6 +101,10 @@ public class AppActivity extends AppCompatActivity {
                             dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + Float.parseFloat(calories));
                             configureCircularTMBProgressView(dataCalorias);
 
+                            if (superaCalorias()){
+                                alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                            }
+
                         })
                         .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
@@ -107,22 +115,43 @@ public class AppActivity extends AppCompatActivity {
         inputEjercicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 View dialogView = getLayoutInflater().inflate(R.layout.add_ejercicio_dialog, null);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AppActivity.this);
                 builder.setView(dialogView)
                         .setTitle("Ingresar Ejercicio")
                         .setPositiveButton("Aceptar", (dialog, which) -> {
+
                             EditText textExerciseName = dialogView.findViewById(R.id.exercise_name);
                             EditText textCalories = dialogView.findViewById(R.id.minus_calories);
-
 
                             String calories = textCalories.getText().toString();
                             String exerciseName = textExerciseName.getText().toString();
 
-                            dataCalorias.setCaloriasTotales(dataCalorias.getCaloriasTotales() - Float.parseFloat(calories));
-                            configureCircularTMBProgressView(dataCalorias);
+                            if (dataCalorias.getCaloriasConsumidas() > 0) {
 
+                                float caloriesValue = Float.parseFloat(calories);
+                                Float newValue = dataCalorias.getCaloriasConsumidas() - caloriesValue;
+
+                                if (newValue >= 0){
+                                    dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() - caloriesValue);
+                                    configureCircularTMBProgressView(dataCalorias);
+                                } else {
+                                    dataCalorias.setCaloriasConsumidas(0F);
+                                    configureCircularTMBProgressView(dataCalorias);
+                                }
+
+                                if (superaCalorias()) {
+                                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                                }
+
+                            } else {
+                                AlertDialog.Builder builderNoCalorias = new AlertDialog.Builder(AppActivity.this);
+                                builderNoCalorias.setMessage("No puedes ingresar un ejercicio sin calorías consumidas.")
+                                        .setNegativeButton("OK", (dialogNoCalorias, whichNoCalorias) -> dialogNoCalorias.dismiss())
+                                        .show();
+                            }
                         })
                         .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
@@ -133,12 +162,15 @@ public class AppActivity extends AppCompatActivity {
 
 
 
-
         addFood1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 942F);
                 configureCircularTMBProgressView(dataCalorias);
+
+                if (superaCalorias()){
+                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -147,6 +179,10 @@ public class AppActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1242F);
                 configureCircularTMBProgressView(dataCalorias);
+
+                if (superaCalorias()){
+                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -155,6 +191,10 @@ public class AppActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1062F);
                 configureCircularTMBProgressView(dataCalorias);
+
+                if (superaCalorias()){
+                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -163,6 +203,10 @@ public class AppActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 1542F);
                 configureCircularTMBProgressView(dataCalorias);
+
+                if (superaCalorias()){
+                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -171,10 +215,24 @@ public class AppActivity extends AppCompatActivity {
             public void onClick(View v) {
                 dataCalorias.setCaloriasConsumidas(dataCalorias.getCaloriasConsumidas() + 966F);
                 configureCircularTMBProgressView(dataCalorias);
+
+                if (superaCalorias()){
+                    alertaSuperaCalorias.setVisibility(View.VISIBLE);
+                }
             }
         });
 
     }
+
+    private boolean superaCalorias(){
+
+        if (dataCalorias.getCaloriasConsumidas() > dataCalorias.getCaloriasTotales()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     private void configureCircularTMBProgressView(DataCalorias dataCalorias) {
 

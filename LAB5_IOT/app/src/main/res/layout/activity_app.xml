@@ -48,6 +48,39 @@ tools:context=".AppActivity">
 
     </com.app.lab5_iot.model.CircularTMB>
 
+    <LinearLayout
+        android:id="@+id/alerta_supera_calorias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingHorizontal="25dp"
+        android:paddingBottom="5dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_borders_alert"
+            android:elevation="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:text="Ha superado sus calorías diarias, por favor ejercítese o deje de consumir alimentos">
+            </TextView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
